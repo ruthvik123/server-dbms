@@ -5,14 +5,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class Sales {
 	
-	private String date;
+	private long date;
 	private String contentPartner;
 	private float price;
 	
-	public String getDate() {
+	public long getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 	public String getContentPartner() {
