@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.springData.POJO.Sales;
 
 import com.example.springData.Repository.SalesJdbcDAO;
+import com.example.springData.Repository.customerCountDAO;
 
 @RestController
 public class controller1 {
 
 	@Autowired
 	SalesJdbcDAO repo;
+
+	@Autowired
+	customerCountDAO customerRepo;
 
 //	@Autowired
 //	Sales obj;
@@ -35,6 +39,14 @@ public class controller1 {
 	public JSONObject entry(@PathVariable String startDate, @PathVariable String endDate) {
 
 		return repo.salesData(startDate, endDate);
+
+	}
+
+	@GetMapping(value = "/customerCount/{startDate}/{endDate}")
+	@CrossOrigin(origins = "http://localhost:4200")
+	public JSONObject customerCount(@PathVariable String startDate, @PathVariable String endDate) {
+
+		return customerRepo.customerCountData(startDate, endDate);
 
 	}
 
