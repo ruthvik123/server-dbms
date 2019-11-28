@@ -5,20 +5,18 @@ import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springData.POJO.Sales;
-
+import com.example.springData.POJO.contentPartnerShare;
 import com.example.springData.Repository.SalesJdbcDAO;
+import com.example.springData.Repository.contentPartnerShareDAO;
 import com.example.springData.Repository.customerCountDAO;
 import com.example.springData.Repository.netProfitDAO;
 import com.example.springData.Repository.refundDAO;
+import com.example.springData.Repository.serviceRevenueDAO;
 
 @RestController
 public class controller1 {
@@ -28,12 +26,18 @@ public class controller1 {
 
 	@Autowired
 	customerCountDAO customerRepo;
-	
+
 	@Autowired
 	netProfitDAO netProfitRepo;
-	
+
 	@Autowired
 	refundDAO refundRepo;
+
+	@Autowired
+	contentPartnerShareDAO contentPartnerShareRepo;
+
+	@Autowired
+	serviceRevenueDAO serviceRevenueRepo;
 
 //	@Autowired
 //	Sales obj;
@@ -58,7 +62,7 @@ public class controller1 {
 		return customerRepo.customerCountData(startDate, endDate);
 
 	}
-	
+
 	@GetMapping(value = "/netProfit/{startDate}/{endDate}")
 	@CrossOrigin(origins = "http://localhost:4200")
 	public JSONArray netProfit(@PathVariable String startDate, @PathVariable String endDate) {
@@ -66,8 +70,7 @@ public class controller1 {
 		return netProfitRepo.netProfit(startDate, endDate);
 
 	}
-	
-	
+
 	@GetMapping(value = "/refund/{startDate}/{endDate}")
 	@CrossOrigin(origins = "http://localhost:4200")
 	public JSONObject refund(@PathVariable String startDate, @PathVariable String endDate) {
@@ -75,7 +78,22 @@ public class controller1 {
 		return refundRepo.refundData(startDate, endDate);
 
 	}
-	
-	
+
+	@GetMapping(value = "/contentPartnerShare/{startDate}/{endDate}")
+	@CrossOrigin(origins = "http://localhost:4200")
+	public List<contentPartnerShare> contentPartnerShareData(@PathVariable String startDate,
+			@PathVariable String endDate) {
+
+		return contentPartnerShareRepo.contentPartnerShareData(startDate, endDate);
+
+	}
+
+	@GetMapping(value = "/serviceRevenue/{startDate}/{endDate}")
+	@CrossOrigin(origins = "http://localhost:4200")
+	public JSONArray getServiceRevenueData(@PathVariable String startDate, @PathVariable String endDate) {
+
+		return serviceRevenueRepo.getServiceRevenueData(startDate, endDate);
+
+	}
 
 }
