@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springData.POJO.contentPartnerShare;
+import com.example.springData.POJO.dataPoints;
+import com.example.springData.Repository.DataPointsDAO;
 import com.example.springData.Repository.SalesJdbcDAO;
 import com.example.springData.Repository.contentPartnerShareDAO;
 import com.example.springData.Repository.customerCountDAO;
@@ -37,10 +39,13 @@ public class controller1 {
 	contentPartnerShareDAO contentPartnerShareRepo;
 
 	@Autowired
-	serviceRevenueDAO serviceRevenueRepo;
+	DataPointsDAO DataPointsRepo;
 
 //	@Autowired
 //	Sales obj;
+	
+	@Autowired
+	serviceRevenueDAO serviceRevenueRepo;
 
 	@GetMapping("/")
 	public String startApp() {
@@ -93,6 +98,16 @@ public class controller1 {
 	public JSONArray getServiceRevenueData(@PathVariable String startDate, @PathVariable String endDate) {
 
 		return serviceRevenueRepo.getServiceRevenueData(startDate, endDate);
+
+	}
+	
+	
+	
+	@GetMapping(value = "/dataPoints/{startDate}/{endDate}")
+	@CrossOrigin(origins = "http://localhost:4200")
+	public dataPoints DataPoints(@PathVariable String startDate, @PathVariable String endDate) {
+
+		return DataPointsRepo.DataPoints(startDate, endDate);
 
 	}
 

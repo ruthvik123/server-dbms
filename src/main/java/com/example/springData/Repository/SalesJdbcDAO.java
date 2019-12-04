@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.springData.POJO.Sales;
 
+
 @Repository
 public class SalesJdbcDAO {
 
@@ -30,6 +31,8 @@ public class SalesJdbcDAO {
 			return salesObj;
 		}
 	}
+
+
 
 	@Autowired
 	NamedParameterJdbcTemplate namedjdbcTemplate;
@@ -56,8 +59,7 @@ public class SalesJdbcDAO {
 		SqlParameterSource namedParams = new MapSqlParameterSource("startDate", startDate).addValue("endDate", endDate);
 
 		List<Sales> salesData = namedjdbcTemplate.query(sql, namedParams, new salesRowMapper());
-        
-		
+
 //		Map<String, List<Sales>> data = new HashMap();
 //		
 //		for(int i = 0; i < salesData.size(); i++) {
@@ -99,5 +101,7 @@ public class SalesJdbcDAO {
 		return sampleObject;
 
 	}
+
+
 
 }
