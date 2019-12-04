@@ -35,11 +35,14 @@ public class serviceRevenueDAO {
 
 	public JSONArray getServiceRevenueData(String startDate, String endDate) {
 
-		String sql = "SELECT\r\n" + "\r\n" + "    et.event_type_name,\r\n" + "\r\n"
-				+ "    SUM(cd.event_cost_mny) / 1000 * - 1 event_cost_mny\r\n" + "\r\n" + "FROM\r\n" + "\r\n"
-				+ "    costedevent   cd,\r\n" + "\r\n" + "    customer      c,\r\n" + "\r\n"
-				+ "    account       a,\r\n" + "\r\n" + "    eventtype     et\r\n" + "\r\n" + "WHERE\r\n" + "\r\n"
-				+ "    cd.event_seq >= (\r\n" + "\r\n" + "        SELECT\r\n" + "\r\n"
+		String sql = "SELECT\r\n" + "\r\n"
+				+ "    decode(et.event_type_name, 'PP Premium SMS MO', 'PrePaid Premium SMS MO', 'PP RBT Content', 'PrePaid RBT Content',\r\n"
+				+ "\r\n"
+				+ "           'PP RBT IVR Content', 'PrePaid RBT IVR Content', 'PP Premium SMS MT', 'PrePaid Premium SMS MT', et.event_type_name) event_type_name\r\n"
+				+ "\r\n" + "           ,\r\n" + "\r\n" + "    SUM(cd.event_cost_mny) / 1000 * - 1 event_cost_mny\r\n"
+				+ "\r\n" + "FROM\r\n" + "\r\n" + "    costedevent   cd,\r\n" + "\r\n" + "    customer      c,\r\n"
+				+ "\r\n" + "    account       a,\r\n" + "\r\n" + "    eventtype     et\r\n" + "\r\n" + "WHERE\r\n"
+				+ "\r\n" + "    cd.event_seq >= (\r\n" + "\r\n" + "        SELECT\r\n" + "\r\n"
 				+ "            MAX(x.event_seq) - 4\r\n" + "\r\n" + "        FROM\r\n" + "\r\n"
 				+ "            costedevent x\r\n" + "\r\n" + "        WHERE\r\n" + "\r\n"
 				+ "            cd.account_num = x.account_num\r\n" + "\r\n" + "    )\r\n" + "\r\n"

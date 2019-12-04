@@ -40,7 +40,12 @@ public class customerCountDAO {
 
 		String sql = "SELECT\r\n" + "\r\n"
 				+ "    round(((to_date(to_char(cd.event_dtm, 'YYYYMM'), 'YYYYMM') - TO_DATE('197001', 'YYYYMM'))) /(1 / 86400)) * 1000 event_dtm,\r\n"
-				+ "\r\n" + "    c.company_name,\r\n" + "\r\n"
+				+ "\r\n" + "    decode(c.company_name,\r\n" + "\r\n"
+				+ "    'Q-MOBILE MIDDLE  EAST CO. (AMERICAN TRADE)', 'AMERICAN TRADE',\r\n" + "\r\n"
+				+ "    'APPLE DISTRIBTION INTERNATIONAL', 'APPLE CORP',\r\n" + "\r\n"
+				+ "           'AIWA GULF FOR GENERAL TRADING and', 'AIWA GULF',\r\n" + "\r\n"
+				+ "           'KITMAKER ENTERTAINMENT SA', 'KITMAKER',\r\n" + "\r\n"
+				+ "           c.company_name) company_name,\r\n" + "\r\n"
 				+ "    COUNT(DISTINCT cd.event_attr_16) customer_count\r\n" + "\r\n" + "FROM\r\n" + "\r\n"
 				+ "    costedevent          cd,\r\n" + "\r\n" + "    customer             c,\r\n" + "\r\n"
 				+ "    account              a,\r\n" + "\r\n" + "    eventtypeattribute   e\r\n" + "\r\n" + "WHERE\r\n"
@@ -51,13 +56,14 @@ public class customerCountDAO {
 				+ "    AND ( trunc(cd.event_dtm) >= :startDate \r\n" + "\r\n"
 				+ "          AND trunc(cd.event_dtm) < :endDate )\r\n" + "\r\n"
 				+ "    AND cd.account_num = a.account_num\r\n" + "\r\n"
-				+ "    AND cd.event_type_id = e.event_type_id\r\n" + "\r\n" + "    AND e.attr_name IN (\r\n" + "\r\n"
-				+ "        'Source Event Source',\r\n" + "\r\n" + "        'MSISDN'\r\n" + "\r\n" + "    )\r\n" + "\r\n"
-				+ "    AND a.customer_ref = c.customer_ref\r\n" + "\r\n" + "GROUP BY\r\n" + "\r\n"
+				+ "    AND cd.event_type_id = e.event_type_id\r\n" + "\r\n" + "    AND e.event_attr_num = 16\r\n"
+				+ "\r\n" + "    AND e.attr_name IN (\r\n" + "\r\n" + "        'Source Event Source',\r\n" + "\r\n"
+				+ "        'MSISDN'\r\n" + "\r\n" + "    )\r\n" + "\r\n" + "    AND a.customer_ref = c.customer_ref\r\n"
+				+ "\r\n" + "GROUP BY\r\n" + "\r\n"
 				+ "    ( round(((to_date(to_char(cd.event_dtm, 'YYYYMM'), 'YYYYMM') - TO_DATE('197001', 'YYYYMM'))) /(1 / 86400)) * 1000 ),\r\n"
 				+ "\r\n" + "    c.company_name\r\n" + "\r\n" + "ORDER BY\r\n" + "\r\n"
 				+ "    ( round(((to_date(to_char(cd.event_dtm, 'YYYYMM'), 'YYYYMM') - TO_DATE('197001', 'YYYYMM'))) /(1 / 86400)) * 1000 ),\r\n"
-				+ "\r\n" + "    c.company_name";
+				+ "\r\n" + "    c.company_name\r\n" + "\r\n" + " ";
 
 		SqlParameterSource namedParams = new MapSqlParameterSource("startDate", startDate).addValue("endDate", endDate);
 
